@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+static def getDefaultVersionCode() {
+    def code = 1
+    code
+}
+
+def defaultVersionName = '1.0'
+
+
 android {
     signingConfigs {
         debug {
@@ -19,73 +27,74 @@ android {
             storePassword 'gradle'
         }
     }
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.idealcn.gradle.study"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode getDefaultVersionCode()
+        versionName defaultVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-    flavorDimensions "free","charge"
+    flavorDimensions "free", "paid"
+    //构建类型
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-
             debuggable true
         }
     }
+    //产品风味
     productFlavors {
-        xiaomi {
+        huawei {
             dimension "free"
         }
         huawei {
+            dimension "paid"
+        }
+        xiaomi {
             dimension "free"
-
         }
-        minApi21 {
-            dimension "charge"
-            signingConfig signingConfigs.release
-            targetSdkVersion 21
-            versionNameSuffix '.xiaomi'
-            minSdkVersion 19
-            versionCode 1
-            versionName 'xiaomi-1.0-release'
-            applicationIdSuffix ".xiaomi"
+        xiaomi {
+            dimension "paid"
         }
-        minApi23 {
-            dimension "charge"
-            targetSdkVersion 21
-            versionNameSuffix '.huawei'
-            minSdkVersion 19
-            signingConfig signingConfigs.release
-            versionCode 1
-            versionName 'huawei-1.0-release'
-            applicationIdSuffix ".huawei"
+        free {
+            dimension "free"
+            applicationIdSuffix ".free"
+        }
+        paid {
+            dimension "paid"
+            applicationIdSuffix ".paid"
         }
     }
-
+    //源集
     sourceSets {
         main {
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/main/res']
-            manifest.srcFile  'src/main/AndroidManifest.xml'
+            manifest.srcFile 'src/main/AndroidManifest.xml'
         }
         huawei {
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/huawei/res']
-            manifest.srcFile  'src/main/AndroidManifest.xml'
+            manifest.srcFile 'src/main/AndroidManifest.xml'
         }
         xiaomi {
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/xiaomi/res']
-            manifest.srcFile  'src/main/AndroidManifest.xml'
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+    }
+
+    splits {
+        density {
+            enable false
+            exclude "ldpi", "tvdpi"
         }
     }
 

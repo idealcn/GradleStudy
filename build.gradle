@@ -23,5 +23,10 @@ allprojects {
 }
 
 task clean(type: Delete) {
+//    println("应用程序application: "+writeFreeHuaweiDebugApplicationId)
     delete rootProject.buildDir
 }
+//task type有哪几种值
+/*tasks update(type: Void){
+    println("hello gradle")
+}*/

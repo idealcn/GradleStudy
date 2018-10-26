@@ -19,7 +19,10 @@
 ```markdown
     git commit -m "提交说明"
     //推送到分支
-    git push master
+    git push -u origin master
 ```
-
+### 添加远程仓库
+```markdown
+    git remote add 远程仓库地址
+```
 
