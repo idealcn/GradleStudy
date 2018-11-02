@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply from: '../version.gradle'
+
 static def getDefaultVersionCode() {
     def code = 1
     code
@@ -31,8 +33,8 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.idealcn.gradle.study"
-        minSdkVersion 19
-        targetSdkVersion 27
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
         versionCode getDefaultVersionCode()
         versionName defaultVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -63,6 +65,9 @@ android {
         xiaomi {
             dimension "paid"
         }
+        vip {
+            dimension "paid"
+        }
         free {
             dimension "free"
             applicationIdSuffix ".free"
@@ -87,6 +92,11 @@ android {
         xiaomi {
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/xiaomi/res']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+        vip {
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/vip/res']
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
