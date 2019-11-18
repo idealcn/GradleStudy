@@ -29,8 +29,8 @@ android {
             storePassword 'gradle'
         }
     }
-    buildToolsVersion '28.0.3'
-    compileSdkVersion 27
+    //buildToolsVersion '28.0.3'
+    compileSdkVersion project.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.idealcn.gradle.study"
         minSdkVersion project.ext.minSdkVersion
@@ -40,7 +40,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-    flavorDimensions "free", "paid"
+    flavorDimensions "brand", "vip"
     //构建类型
     buildTypes {
         release {
@@ -54,27 +54,29 @@ android {
     //产品风味
     productFlavors {
         huawei {
-            dimension "free"
+            dimension "brand"
+            applicationIdSuffix ".huawei"
         }
-        huawei {
-            dimension "paid"
-        }
+//        huawei {
+//            dimension "paid"
+//        }
         xiaomi {
-            dimension "free"
+            dimension "brand"
+            applicationIdSuffix ".xiaomi"
         }
-        xiaomi {
-            dimension "paid"
-        }
-        vip {
-            dimension "paid"
-        }
+//        xiaomi {
+//            dimension "paid"
+//        }
+//        vip {
+//            dimension "paid"
+//        }
         free {
-            dimension "free"
+            dimension "vip"
             applicationIdSuffix ".free"
         }
-        paid {
-            dimension "paid"
-            applicationIdSuffix ".paid"
+        vip {
+            dimension "vip"
+            applicationIdSuffix ".vip"
         }
     }
     //源集
@@ -97,6 +99,11 @@ android {
         vip {
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/vip/res']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+        free {
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/free/res']
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
