@@ -28,6 +28,13 @@ android {
             storeFile file('../apk/gradle.jks')
             storePassword 'gradle'
         }
+        pro {
+
+        storeFile file('..\\apk\\gradle.jks')
+            storePassword 'gradle'
+            keyAlias 'gradle'
+            keyPassword 'gradle'
+        }
     }
     //buildToolsVersion '28.0.3'
     compileSdkVersion project.ext.compileSdkVersion
@@ -39,16 +46,22 @@ android {
         versionName defaultVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+
     }
-    flavorDimensions "brand", "vip"
+    flavorDimensions 'brand', 'vip','country','version'
     //构建类型
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            signingConfig signingConfigs.debug
             debuggable true
+        }
+        pro {
+            signingConfig signingConfigs.pro
         }
     }
     //产品风味
@@ -56,27 +69,65 @@ android {
         huawei {
             dimension "brand"
             applicationIdSuffix ".huawei"
+            versionName 'huawei-v1.0'
+
         }
-//        huawei {
-//            dimension "paid"
-//        }
+
         xiaomi {
             dimension "brand"
             applicationIdSuffix ".xiaomi"
+            versionName 'xiaomi-v1.0'
+
         }
-//        xiaomi {
-//            dimension "paid"
-//        }
-//        vip {
-//            dimension "paid"
-//        }
+
         free {
             dimension "vip"
             applicationIdSuffix ".free"
+            versionName 'free-v1.0'
+
         }
         vip {
             dimension "vip"
             applicationIdSuffix ".vip"
+            versionName 'vip-v1.0'
+
+        }
+        USA {
+            dimension 'country'
+            applicationIdSuffix '.usa'
+            versionName 'USA-v1.0'
+
+        }
+        China {
+            dimension 'country'
+            applicationIdSuffix '.cn'
+            versionName 'China-v1.0'
+
+        }
+
+        produce {
+            dimension 'version'
+            applicationIdSuffix '.produce'
+            versionCode 1
+            versionName 'produce-v1.0'
+        }
+        publish {
+            dimension 'version'
+            applicationIdSuffix '.publish'
+            versionCode 2
+            versionName 'publish-v2.0'
+        }
+        minApi19 {
+            dimension 'version'
+            versionName 'minApi19-v2.0'
+        }
+        minApi21 {
+            dimension 'version'
+            versionName 'minApi21-v2.0'
+        }
+        minApi27 {
+            dimension 'version'
+            versionName 'minApi27-v2.0'
         }
     }
     //源集
@@ -106,12 +157,17 @@ android {
             res.srcDirs = ['src/free/res']
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
+        produce {
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/produce/res']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
     }
 
     splits {
         density {
             enable false
-            exclude "ldpi", "tvdpi"
+            exclude "ldpi", "tvdpi","mdpi"
         }
     }
 
@@ -119,14 +175,18 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
-}
 
+
+}
+configurations {
+
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.ext.kotlin_version}"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
